@@ -1,22 +1,12 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
+    "module": "commonjs",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "inlineSources": false,
-    "isolatedModules": true,
-    "lib": ["ES2021"],
-    "module": "esnext",
+    "target": "es6",
     "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-  }
+    "outDir": "dist"
+  },
+  "lib": ["es2015"]
 }

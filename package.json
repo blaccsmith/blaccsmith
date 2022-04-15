@@ -1,14 +1,19 @@
 {
     "name": "blaccsmith",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "dist/index.js",
     "repository": "https://github.com/blaccsmith/blaccsmith.git",
     "author": "Garrett Tolbert <garrett1.tolbert@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "tsc index.ts --watch && node ."
+        "dev": "tsc && node dist/",
+        "cmd": "tsc && node dist/commands.js",
+        "build": "tsc"
     },
     "dependencies": {
+        "@discordjs/builders": "^0.12.0",
+        "@discordjs/rest": "^0.3.0",
+        "discord-api-types": "^0.31.1",
         "discord.js": "^13.6.0",
         "dotenv": "^16.0.0"
     },
