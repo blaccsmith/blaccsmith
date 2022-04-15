@@ -14,6 +14,7 @@ export const execute = async (reaction: MessageReaction, user: User) => {
         if (member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
             await member.roles.remove(CONSTANTS.MEMBER_ROLE_ID);
             await member.roles.add(CONSTANTS.SPECTATOR_ROLE_ID);
+            console.log(`🟠 Rejected community guidelines – ${user.tag}`);
         }
     }
 };
