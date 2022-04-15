@@ -1,19 +1,21 @@
-import { Client, Collection, Intents } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
-import { ClientWithCommands, CommandType } from './types';
+import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils';
 
 const client: ClientWithCommands = new Client({
-    intents: [Intents.FLAGS.GUILDS],
+    intents: CONSTANTS.BOT_INTENTS,
 });
 
 client.commands = new Collection();
 
+// Register slash commands
 for (const file of getCommandFiles()) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.data.name, command);
 }
 
+// Register events that we'll listen to
 for (const file of getEventFiles()) {
     const event = require(`./events/${file}`);
     if (event.once) {
