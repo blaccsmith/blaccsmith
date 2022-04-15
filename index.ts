@@ -5,6 +5,7 @@ import { getCommandFiles, getEventFiles } from './utils';
 
 const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
+    partials: CONSTANTS.BOT_PARTIALS,
 });
 
 client.commands = new Collection();
