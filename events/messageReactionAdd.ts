@@ -1,20 +1,27 @@
 import { MessageReaction, User } from 'discord.js';
+import { client } from '..';
 import { CONSTANTS } from '../constants';
 
 export const name = 'messageReactionAdd';
 
 export const execute = async (reaction: MessageReaction, user: User) => {
-    if (reaction.message.id !== CONSTANTS.RULES_MESSAGE_ID) return;
+    if (reaction.message.id !== CONSTANTS.COMMUNITY_GUIDELINES_MESSAGE_ID) return;
     if (reaction.emoji.name !== '✅') {
-        // Get user's reactions from the message
-        const userReactions = reaction.message.reactions.cache.filter(reaction =>
-            reaction.users.cache.has(user.id),
-        );
+        console.log(`ℹ️ Incorrect reaction to community guidelines – ${user.tag}`);
 
         try {
-            await userReactions.first()?.users.remove(user);
+            await reaction.remove();
+            return;
         } catch (error) {
             console.error('Failed to remove reactions.');
         }
+    }
+
+    const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
+    const member = await guild.members.fetch(user.id);
+
+    if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
+        await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
+        await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
     }
 };
