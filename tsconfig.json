@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "lib": ["ES2021"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+  }
+}

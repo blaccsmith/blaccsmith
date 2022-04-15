@@ -1,0 +1,20 @@
+{
+    "name": "blaccsmith",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/blaccsmith/blaccsmith.git",
+    "author": "Garrett Tolbert <garrett1.tolbert@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "dev": "tsc index.ts --watch && node ."
+    },
+    "dependencies": {
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.13.0",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.3"
+    }
+}
