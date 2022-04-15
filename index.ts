@@ -3,7 +3,7 @@ import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils';
 
-const client: ClientWithCommands = new Client({
+export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
     partials: CONSTANTS.BOT_PARTIALS,
 });
