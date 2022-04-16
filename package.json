@@ -7,8 +7,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "tsc && node dist/",
-        "cmd": "tsc && node dist/commands.js",
-        "build": "tsc"
+        "cmd": "tsc && node dist/commands.js"
     },
     "dependencies": {
         "@discordjs/builders": "^0.12.0",
