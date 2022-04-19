@@ -32,7 +32,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     await channel.send({ embeds: [embedMessage(question as string)] });
     interaction.reply({
-        content: `Your question has been sent!, Check it out: #${channel.name}`,
+        content: `Your question has been sent! Check it out: <#${channel.id}>`,
         ephemeral: true,
     });
     console.log(`❓ Someone asked anonymously in #${channel.name}`);
