@@ -5,7 +5,7 @@ import timers from 'node:timers/promises';
 
 export const data = new SlashCommandBuilder()
     .setName('remind-me')
-    .setDescription('Reminds you about a message someone said')
+    .setDescription('🎗 Reminds you about a message someone said')
     .addStringOption(option =>
         option
             .setName('duration')
