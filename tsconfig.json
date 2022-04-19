@@ -8,5 +8,6 @@
     "strict": true,
     "outDir": "dist"
   },
-  "lib": ["es2015"]
+  "lib": ["es2015"],
+  "exclude": ["commands/example.ts"]
 }
