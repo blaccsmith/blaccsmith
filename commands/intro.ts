@@ -14,6 +14,7 @@ export const data = new SlashCommandBuilder()
                 ['🪴 Junior Developer', 'Junior'],
                 ['🌿 Mid-level Developer', 'Mid-level'],
                 ['🌳 Senior Developer', 'Senior'],
+                ['Other', 'Other'],
             ]),
     )
     .addStringOption(option =>
