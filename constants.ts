@@ -1,3 +1,4 @@
+import { Method } from 'axios';
 import { Intents, PartialTypes } from 'discord.js';
 import { config } from 'dotenv';
 config();
@@ -22,4 +23,9 @@ export const CONSTANTS = Object.freeze({
     _1_HOUR: 3600000,
     _6_HOURS: 21600000,
     _1_DAY: 86400000,
+    LOG_OPTIONS: {
+        method: 'POST' as Method,
+        url: process.env.LOG_URL as string,
+        headers: { Authorization: `Bearer ${process.env.LOG_TOKEN as string}` },
+    },
 });
