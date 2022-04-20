@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { client } from '..';
 import { CONSTANTS } from '../constants';
+import logger from '../utils/logger';
 
 export const name = 'messageCreate';
 
@@ -13,6 +14,13 @@ export const execute = async (message: Message) => {
     if (member?.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
         await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
         await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
-        console.log(`🟢 ${user.tag} introduced themselves to the server.`);
+        await logger({
+            project: 'blacc',
+            channel: 'welcome',
+            event: 'New introduction',
+            description: user.tag,
+            icon: '🟢',
+            notify: true,
+        });
     }
 };

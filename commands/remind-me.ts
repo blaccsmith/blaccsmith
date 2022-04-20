@@ -2,6 +2,7 @@ import { CommandInteraction, CacheType, User } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import timers from 'node:timers/promises';
+import logger from '../utils/logger';
 
 export const data = new SlashCommandBuilder()
     .setName('remind-me')
@@ -27,7 +28,14 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const message = interaction.options.getString('message');
     const interactionAuthor = interaction.member?.user as User;
 
-    console.log(`🟡 ${interactionAuthor.tag} set a reminder.`);
+    await logger({
+        project: 'blacc',
+        channel: 'remind-me',
+        event: 'Reminder set',
+        description: interactionAuthor.tag,
+        icon: '🟡',
+        notify: true,
+    });
     await interaction.reply({
         content: `We'll remind you about this message soon!`,
         ephemeral: true,
@@ -37,5 +45,12 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const author = await interaction.client.users.fetch(interaction.member?.user.id as string);
     await author.send({ content: `🎗 Here's your reminder: ${message}` });
-    console.log(`🟡 A reminder has been sent to ${interactionAuthor.tag}.`);
+    await logger({
+        project: 'blacc',
+        channel: 'remind-me',
+        event: 'Reminder has been sent',
+        description: interactionAuthor.tag,
+        icon: '🟡',
+        notify: true,
+    });
 }

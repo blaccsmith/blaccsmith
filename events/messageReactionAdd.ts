@@ -1,6 +1,7 @@
 import { MessageReaction, User } from 'discord.js';
 import { client } from '..';
 import { CONSTANTS } from '../constants';
+import logger from '../utils/logger';
 
 export const name = 'messageReactionAdd';
 
@@ -25,5 +26,12 @@ export const execute = async (reaction: MessageReaction, user: User) => {
     } else if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
         await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
     }
-    console.log(`🟢 Accepted community guidelines – ${user.tag}`);
+    await logger({
+        project: 'blacc',
+        channel: 'community-guidelines',
+        event: 'Accepted community guidelines',
+        description: user.tag,
+        icon: '🟢',
+        notify: true,
+    });
 };
