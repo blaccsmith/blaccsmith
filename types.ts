@@ -7,3 +7,12 @@ export interface CommandType {
 }
 
 export type ClientWithCommands = Client & { commands?: Collection<string, any> };
+
+export interface LogBody {
+    project: string;
+    channel: string;
+    event: string;
+    description: string;
+    icon: string;
+    notify: boolean;
+}
