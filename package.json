@@ -6,7 +6,8 @@
     "author": "Garrett Tolbert <garrett1.tolbert@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "tsc && node dist/commands.js && node dist/"
+        "dev": "tsc && node dist/",
+        "cmd": "tsc && node dist/commands.js"
     },
     "dependencies": {
         "@discordjs/builders": "^0.12.0",
