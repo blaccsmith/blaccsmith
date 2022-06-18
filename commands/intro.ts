@@ -1,6 +1,5 @@
-import { CommandInteraction, CacheType, User } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { client } from '..';
 import { CONSTANTS } from '../constants';
 import { embedMessage } from '../utils';
 
@@ -33,15 +32,13 @@ export const data = new SlashCommandBuilder()
         option.setName('twitter').setDescription('What is your Twitter handle?'),
     );
 
-export async function execute(interaction: CommandInteraction<CacheType>, user: User) {
+export async function execute(interaction: CommandInteraction<CacheType>) {
     const channel = interaction.channel;
+    const member = interaction.member as GuildMember;
     const status = interaction.options.get('status');
     const github = interaction.options.getString('github');
     const linkedin = interaction.options.getString('linkedin');
     const twitter = interaction.options.getString('twitter');
-
-    const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
-    const member = await guild.members.fetch(user.id);
     const intro = interaction.options.get('intro');
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
@@ -70,5 +67,5 @@ export async function execute(interaction: CommandInteraction<CacheType>, user: 
         await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
     }
 
-    await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
+    interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }
