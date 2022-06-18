@@ -1,9 +1,14 @@
-import { CommandInteraction, CacheType } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { CONSTANTS } from '../constants';
+import { embedMessage, formatUrl } from '../utils';
 
 export const data = new SlashCommandBuilder()
     .setName('intro')
     .setDescription('✨ Tell us a bit about yourself!')
+    .addStringOption(option =>
+        option.setName('intro').setDescription('Write your intro here').setRequired(true),
+    )
     .addStringOption(option =>
         option
             .setName('status')
@@ -28,12 +33,47 @@ export const data = new SlashCommandBuilder()
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
+    const channel = interaction.channel;
+    const member = interaction.member as GuildMember;
     const status = interaction.options.get('status');
-    const github = interaction.options.getString('github');
-    const linkedin = interaction.options.getString('linkedin');
-    const twitter = interaction.options.getString('twitter');
+    const github = interaction.options.get('github');
+    const linkedin = interaction.options.get('linkedin');
+    const twitter = interaction.options.get('twitter');
+    const intro = interaction.options.getString('intro');
+    const links = [github, linkedin, twitter].filter(Boolean).map(link => ({
+        name: `${link?.name}`,
+        value: `${formatUrl(link?.name as string, link?.value as string)}`,
+        inline: true,
+    }));
 
-    console.log({ status, github, linkedin, twitter });
+    if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
+        await interaction.reply({
+            content: `You can only use this command in the welcome channel.`,
+            ephemeral: true,
+        });
+        return;
+    }
 
-    await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
+    if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
+        await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
+        await channel.send({
+            embeds: [
+                embedMessage({
+                    title: `Welcome ${member.displayName}!`,
+                    description: `${intro}`,
+                    color: '#5bd64b',
+                    author: {
+                        name: member.displayName,
+                        iconURL: member.user.displayAvatarURL(),
+                    },
+                    thumbnail: member.user.displayAvatarURL(),
+                    links,
+                }),
+            ],
+        });
+        await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
+        return;
+    }
+
+    await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }

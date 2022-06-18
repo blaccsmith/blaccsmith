@@ -1,5 +1,6 @@
 import { CommandInteraction, CacheType, TextChannel, MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { embedMessage } from '../utils';
 
 export const data = new SlashCommandBuilder()
     .setName('asking-for-a-friend')
@@ -30,22 +31,24 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         channelValue?.channel?.id as string,
     ) as TextChannel;
 
-    await channel.send({ embeds: [embedMessage(question as string)] });
+    await channel.send({
+        embeds: [
+            embedMessage({
+                title: question as string,
+                description:
+                    'If you want to ask a question anonymously, use the `/asking-for-a-friend` slash command',
+                color: '#5bd64b',
+                author: {
+                    name: 'Asking for a Friend',
+                    iconURL: 'https://blacc.vercel.app/blacc.png',
+                },
+            }),
+        ],
+    });
+
     interaction.reply({
         content: `Your question has been sent! Check it out: <#${channel.id}>`,
         ephemeral: true,
     });
     console.log(`❓ Someone asked anonymously in #${channel.name}`);
 }
-
-const embedMessage = (question: string) => {
-    const description =
-        'If you want to ask a question anonymously, use the `/asking-for-a-friend` slash command';
-
-    return new MessageEmbed()
-        .setColor('#5bd64b')
-        .setTitle(question)
-        .setAuthor({ name: 'Asking for a Friend', iconURL: 'https://blacc.vercel.app/blacc.png' })
-        .setDescription(description)
-        .setTimestamp();
-};
