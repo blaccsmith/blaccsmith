@@ -39,7 +39,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const github = interaction.options.getString('github');
     const linkedin = interaction.options.getString('linkedin');
     const twitter = interaction.options.getString('twitter');
-    const intro = interaction.options.get('intro');
+    const intro = interaction.options.getString('intro');
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
         await interaction.reply({
@@ -65,6 +65,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             ],
         });
         await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
+        return;
     }
 
     interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
