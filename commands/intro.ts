@@ -2,12 +2,13 @@ import { CommandInteraction, CacheType, User } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { client } from '..';
 import { CONSTANTS } from '../constants';
+import { embedMessage } from '../utils';
 
 export const data = new SlashCommandBuilder()
-    .setName('inlro')
+    .setName('intro')
     .setDescription('✨ Tell us a bit about yourself!')
     .addStringOption(option =>
-        option.setName('igtro').setDescription('Write your intro here').setRequired(true),
+        option.setName('intro').setDescription('Write your intro here').setRequired(true),
     )
     .addStringOption(option =>
         option
@@ -33,6 +34,7 @@ export const data = new SlashCommandBuilder()
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>, user: User) {
+    const channel = interaction.channel;
     const status = interaction.options.get('status');
     const github = interaction.options.getString('github');
     const linkedin = interaction.options.getString('linkedin');
@@ -40,9 +42,31 @@ export async function execute(interaction: CommandInteraction<CacheType>, user: 
 
     const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
     const member = await guild.members.fetch(user.id);
+    const intro = interaction.options.get('intro');
+
+    if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
+        await interaction.reply({
+            content: `You can only use this command in the welcome channel.`,
+            ephemeral: true,
+        });
+        return;
+    }
 
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
         await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
+        await channel.send({
+            embeds: [
+                embedMessage({
+                    title: `Welcome ${member.displayName}!`,
+                    description: `${intro}`,
+                    color: '#5bd64b',
+                    author: {
+                        name: member.displayName,
+                        iconURL: member.user.displayAvatarURL(),
+                    },
+                }),
+            ],
+        });
         await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
     }
 
