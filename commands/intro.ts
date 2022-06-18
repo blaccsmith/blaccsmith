@@ -75,5 +75,5 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         return;
     }
 
-    interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
+    await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }
