@@ -7,13 +7,9 @@ export const getCommandFiles = () =>
 export const getEventFiles = () =>
     fs.readdirSync('./dist/events').filter(file => file.endsWith('.js'));
 
-export const formatUrl = (url: string) => {
-    if (url.startsWith('https://www.')) {
-        return url;
-    } else if (url.startsWith('www.')) {
-        return `https://${url}`;
-    }
-    return `https://www.${url}`;
+export const formatUrl = (name: string, value: string) => {
+    if (value.startsWith('@')) value = value.substring(1, value.length);
+    return `https://www.${name}.com/${value}`;
 };
 
 export const embedMessage = ({

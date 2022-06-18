@@ -42,7 +42,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const intro = interaction.options.getString('intro');
     const links = [github, linkedin, twitter].filter(Boolean).map(link => ({
         name: `${link?.name}`,
-        value: `${formatUrl(link?.value as string)}`,
+        value: `${formatUrl(link?.name as string, link?.value as string)}`,
         inline: true,
     }));
 
