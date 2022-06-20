@@ -1,7 +1,7 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { CONSTANTS } from './constants';
-import { getCommandFiles } from './utils';
+import { getCommandFiles } from './utils/get-sys-files';
 
 const { CLIENT_ID, GUILD_ID, DISCORD_TOKEN } = CONSTANTS;
 

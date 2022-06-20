@@ -1,7 +1,7 @@
 import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
-import { getCommandFiles, getEventFiles } from './utils';
+import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,

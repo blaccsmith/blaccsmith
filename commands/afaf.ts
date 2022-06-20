@@ -1,6 +1,6 @@
-import { CommandInteraction, CacheType, TextChannel, MessageEmbed } from 'discord.js';
+import { CommandInteraction, CacheType, TextChannel } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { embedMessage } from '../utils';
+import { embedMessage } from '../utils/embed-message';
 
 export const data = new SlashCommandBuilder()
     .setName('asking-for-a-friend')
