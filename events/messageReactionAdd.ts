@@ -25,6 +25,7 @@ export const execute = async (reaction: MessageReaction, user: User) => {
         await member.roles.add(CONSTANTS.SPECTATOR_ROLE_ID);
     } else if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
         await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
+        await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
     }
     await logger({
         project: 'blacc',
