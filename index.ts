@@ -49,13 +49,13 @@ client.login(CONSTANTS.DISCORD_TOKEN);
 
 // Good news Friday Event
 discordScheduledEvent({
-    scheduling: '*/10 * * * * *' ?? '* 0 9 * * FRI',
-    scheduledStartTime: new Date(Date.now() + 3600 * 1000 * 24),
-    scheduledEndTime: new Date(Date.now() + 3600 * 1000 * 24 * 2),
-    name: 'Good News Friday',
+    scheduling: '* 0 7 * * FRI',
+    scheduledStartTime: new Date(),
+    scheduledEndTime: new Date(Date.now() + 3600 * 15),
+    name: 'Good News Friday 🥳',
     description:
         "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
-    channel: '771819631757230091',
+    channel: process.env.GENERAL_CHANNEL_ID as string,
     entityType: 'EXTERNAL',
     entityMetadata: { location: '#general channel' },
 });
