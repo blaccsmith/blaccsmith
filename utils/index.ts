@@ -6,5 +6,5 @@ export const socials = {
 
 export const formatSocial = (name: keyof typeof socials, value: string) => {
     const linkText = name === 'linkedin' ? 'View' : value;
-    return `[${linkText}](${socials[name]}/${value})`;
+    return [`${socials[name]}/${value}`, `[${linkText}](${socials[name]}/${value})`];
 };

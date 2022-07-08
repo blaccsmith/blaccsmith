@@ -3,6 +3,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { formatSocial, socials } from '../utils';
 import { embedMessage } from '../utils/embed-message';
+import { updateProfile } from '../lib/updateProfile';
+import logger from '../utils/logger';
 
 export const data = new SlashCommandBuilder()
     .setName('intro')
@@ -49,9 +51,10 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const intro = interaction.options.getString('intro');
 
     const links = [github, linkedin, twitter].filter(Boolean).map(link => ({
-        name: link!.name[0].toUpperCase() + link!.name.slice(1),
-        value: formatSocial(link!.name as keyof typeof socials, link!.value as string),
         inline: true,
+        name: link!.name[0].toUpperCase() + link!.name.slice(1),
+        rawUrl: formatSocial(link!.name as keyof typeof socials, link!.value as string)[0],
+        value: formatSocial(link!.name as keyof typeof socials, link!.value as string)[1],
     }));
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
@@ -63,21 +66,32 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     }
 
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
-        await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
-        await channel.send({
-            embeds: [
-                embedMessage({
-                    title: `Welcome ${member.displayName}!`,
-                    description: `${intro}`,
-                    color: '#5bd64b',
-                    thumbnail: member.user.displayAvatarURL(),
-                    links,
-                }),
-            ],
-        });
-        await interaction.reply({ content: 'Welcome to the server!', ephemeral: true });
+        await Promise.all([
+            member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
+            updateProfile({ id: member.id, status, links, intro }),
+            channel.send({
+                embeds: [
+                    embedMessage({
+                        title: `Welcome ${member.displayName}!`,
+                        description: `${intro}`,
+                        color: '#5bd64b',
+                        thumbnail: member.user.displayAvatarURL(),
+                        links,
+                    }),
+                ],
+            }),
+            interaction.reply({ content: 'Welcome to the server!', ephemeral: true }),
+        ]);
         return;
     }
 
+    await logger({
+        project: 'blacc',
+        channel: 'welcome',
+        event: 'New introduction',
+        description: member.user.tag,
+        icon: '🟢',
+        notify: true,
+    });
     await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }
