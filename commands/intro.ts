@@ -82,16 +82,17 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             }),
             interaction.reply({ content: 'Welcome to the server!', ephemeral: true }),
         ]);
+        await logger({
+            project: 'blacc',
+            channel: 'welcome',
+            event: 'New introduction',
+            description: member.user.tag,
+            icon: '🟢',
+            notify: true,
+        });
         return;
     }
 
-    await logger({
-        project: 'blacc',
-        channel: 'welcome',
-        event: 'New introduction',
-        description: member.user.tag,
-        icon: '🟢',
-        notify: true,
-    });
+    await updateProfile({ id: member.id, status, links, intro });
     await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }
