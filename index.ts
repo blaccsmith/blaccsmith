@@ -51,7 +51,7 @@ client.login(CONSTANTS.DISCORD_TOKEN);
 discordScheduledEvent({
     scheduling: '* 0 7 * * FRI',
     scheduledStartTime: new Date(),
-    scheduledEndTime: new Date(Date.now() + 3600 * 15),
+    scheduledEndTime: new Date(Date.now() + 3600 * 17),
     name: 'Good News Friday 🥳',
     description:
         "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
