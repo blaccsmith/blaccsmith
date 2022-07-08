@@ -1,20 +1,8 @@
 const cron = require('node-cron');
 import { client } from '..';
 import { CONSTANTS } from '../constants';
+import { ScheduledEvent } from '../types';
 import { GuildScheduledEventCreateOptions } from 'discord.js';
-
-interface ScheduledEvent {
-    name: string;
-    channel: string;
-    scheduling: string;
-    scheduledStartTime: Date;
-    scheduledEndTime: Date;
-    description: string;
-    entityType: 'EXTERNAL' | 'STAGE_INSTANCE' | 'VOICE';
-    entityMetadata: {
-        location: string;
-    };
-}
 
 export const scheduledEvent = async ({
     scheduling,
