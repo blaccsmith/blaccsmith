@@ -6,7 +6,9 @@
     "author": "Garrett Tolbert <garrett1.tolbert@gmail.com>",
     "license": "MIT",
     "scripts": {
+        "generate": "npx prisma generate",
         "start": "tsc && node dist/",
+        "run": "yarn generate && yarn start",
         "cmd": "tsc && node dist/commands.js"
     },
     "dependencies": {
