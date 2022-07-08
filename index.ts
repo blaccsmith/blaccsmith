@@ -1,4 +1,4 @@
-import { Client, Collection, GuildScheduledEventCreateOptions } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
