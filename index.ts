@@ -2,6 +2,7 @@ import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
+import { scheduledEvent } from './utils/scheduled-event';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
@@ -45,3 +46,16 @@ for (const file of getEventFiles()) {
 }
 
 client.login(CONSTANTS.DISCORD_TOKEN);
+
+// Good news Friday Event
+scheduledEvent({
+    scheduling: '* 0 7 * * FRI',
+    scheduledStartTime: new Date(),
+    scheduledEndTime: new Date(Date.now() + 3600 * 17),
+    name: 'Good News Friday 🥳',
+    description:
+        "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
+    channel: process.env.GENERAL_CHANNEL_ID as string,
+    entityType: 'EXTERNAL',
+    entityMetadata: { location: '#general channel' },
+});

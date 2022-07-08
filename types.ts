@@ -16,3 +16,16 @@ export interface LogBody {
     icon: string;
     notify: boolean;
 }
+
+export interface ScheduledEvent {
+    name: string;
+    channel: string;
+    scheduling: string;
+    scheduledStartTime: Date;
+    scheduledEndTime: Date;
+    description: string;
+    entityType: 'EXTERNAL' | 'STAGE_INSTANCE' | 'VOICE';
+    entityMetadata: {
+        location: string;
+    };
+}
