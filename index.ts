@@ -2,7 +2,7 @@ import { Client, Collection, GuildScheduledEventCreateOptions } from 'discord.js
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
-import { discordScheduledEvent } from './utils/scheduled-event';
+import { scheduledEvent } from './utils/scheduled-event';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
@@ -48,7 +48,7 @@ for (const file of getEventFiles()) {
 client.login(CONSTANTS.DISCORD_TOKEN);
 
 // Good news Friday Event
-discordScheduledEvent({
+scheduledEvent({
     scheduling: '* 0 7 * * FRI',
     scheduledStartTime: new Date(),
     scheduledEndTime: new Date(Date.now() + 3600 * 17),
