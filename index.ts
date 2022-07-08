@@ -49,13 +49,13 @@ client.login(CONSTANTS.DISCORD_TOKEN);
 
 // Good news Friday Event
 scheduledEvent({
-    scheduling: '* 0 7 * * FRI',
-    scheduledStartTime: new Date(),
-    scheduledEndTime: new Date(Date.now() + 3600 * 17),
+    scheduling: '0 9 * * FRI',
+    scheduledStartTime: new Date(Date.now() + 1000 * 60),
+    scheduledEndTime: new Date(Date.now() + 1000 * 3600 * 17),
     name: 'Good News Friday 🥳',
     description:
         "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
-    channel: process.env.GENERAL_CHANNEL_ID as string,
+    channel: CONSTANTS.GENERAL_CHANNEL_ID,
     entityType: 'EXTERNAL',
     entityMetadata: { location: '#general channel' },
 });
