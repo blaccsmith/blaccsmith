@@ -2,6 +2,7 @@ import { Client, Collection, GuildScheduledEventCreateOptions } from 'discord.js
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
 import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
+import { discordScheduledEvent } from './utils/scheduled-event';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
@@ -46,33 +47,15 @@ for (const file of getEventFiles()) {
 
 client.login(CONSTANTS.DISCORD_TOKEN);
 
-const cron = require('node-cron');
-
-cron.schedule(
-    '* 0 9 * * FRI',
-    () => {
-        const generalId = '988246104892145704';
-        const options: GuildScheduledEventCreateOptions = {
-            name: 'Good News Friday',
-            channel: generalId,
-            privacyLevel: 'GUILD_ONLY',
-            description: 'Share your good news!',
-            entityType: 'EXTERNAL',
-            scheduledStartTime: new Date(Date.now() + 3600 * 1000 * 24),
-            scheduledEndTime: new Date(Date.now() + 3600 * 1000 * 24 * 2),
-            entityMetadata: {
-                location: '#general channel',
-            },
-        };
-
-        const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
-
-        if (!guild) return;
-
-        guild.scheduledEvents.create(options);
-    },
-    {
-        scheduled: true,
-        timezone: 'America/Chicago',
-    },
-);
+// Good news Friday Event
+discordScheduledEvent({
+    scheduling: '*/10 * * * * *' ?? '* 0 9 * * FRI',
+    scheduledStartTime: new Date(Date.now() + 3600 * 1000 * 24),
+    scheduledEndTime: new Date(Date.now() + 3600 * 1000 * 24 * 2),
+    name: 'Good News Friday',
+    description:
+        "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
+    channel: '771819631757230091',
+    entityType: 'EXTERNAL',
+    entityMetadata: { location: '#general channel' },
+});
