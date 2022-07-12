@@ -16,7 +16,7 @@ export const scheduledEvent = async ({
 }: ScheduledEvent): Promise<void> => {
     return cron.schedule(
         scheduling,
-        () => {
+        async () => {
             const options: GuildScheduledEventCreateOptions = {
                 name,
                 channel,
@@ -32,7 +32,7 @@ export const scheduledEvent = async ({
 
             if (!guild) return;
 
-            guild.scheduledEvents.create(options);
+            await guild.scheduledEvents.create(options);
         },
         {
             scheduled: true,
