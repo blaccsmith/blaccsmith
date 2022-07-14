@@ -40,20 +40,26 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const userData = await getProfile({ discordId: searchedMember.user.id });
 
-    const links = [userData?.github, userData?.linkedin, userData?.twitter]
+    const rawLinks = [userData?.github, userData?.linkedin, userData?.twitter]
         .filter(Boolean)
         .map(link => ({
-            inline: true,
             name: getLinkName(link as string),
             rawUrl: formatSocial(
                 getLinkName(link as string) as keyof typeof socials,
-                link as string,
+                link?.split('.com/').pop() as string,
             )[0],
             value: formatSocial(
                 getLinkName(link as string) as keyof typeof socials,
-                link as string,
+                link?.split('.com/').pop() as string,
             )[1],
         }));
+
+    const links = rawLinks.map(link => ({
+        inline: true,
+        name: link.name,
+        rawUrl: link.rawUrl,
+        value: link.value,
+    }));
 
     const message = embedMessage({
         title: `${searchedMember.displayName}'s profile`,
