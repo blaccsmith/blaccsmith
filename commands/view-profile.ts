@@ -43,7 +43,10 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const rawLinks = [userData?.github, userData?.linkedin, userData?.twitter]
         .filter(Boolean)
         .map(link => ({
-            name: getLinkName(link as string),
+            name:
+                getLinkName(link as string)
+                    .charAt(0)
+                    .toUpperCase() + getLinkName(link as string).slice(1),
             rawUrl: formatSocial(
                 getLinkName(link as string) as keyof typeof socials,
                 link?.split('.com/').pop() as string,
