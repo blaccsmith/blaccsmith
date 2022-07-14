@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../lib/getProfile';
 import { embedMessage } from '../utils/embed-message';
+import { formatSocial, socials } from '../utils';
 
 export const data = new SlashCommandBuilder()
     .setName('view-profile')
@@ -15,37 +16,59 @@ export const data = new SlashCommandBuilder()
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
-    const guild = await interaction.client.guilds.fetch(CONSTANTS.GUILD_ID);
     const username = interaction.options.getString('username') as string;
-    const member = guild.members.cache.find(
+    const guild = await interaction.client.guilds.fetch(CONSTANTS.GUILD_ID);
+    const allMembers = await guild.members.fetch();
+    const searchedMember = allMembers.find(
         member => member.user.username.toLocaleLowerCase() === username.trim().toLocaleLowerCase(),
     );
 
-    if (!member || !member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
+    // Can't find user
+    if (!searchedMember) {
         await interaction.reply({ content: `Could not find user ${username}`, ephemeral: true });
         return;
     }
-    const userData = await getProfile({ userId: member.user.id });
+
+    // Profile is not created
+    if (!searchedMember.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
+        await interaction.reply({
+            content: `${username} does not have their profile configured`,
+            ephemeral: true,
+        });
+        return;
+    }
+
+    const userData = await getProfile({ discordId: searchedMember.user.id });
 
     const links = [userData?.github, userData?.linkedin, userData?.twitter]
         .filter(Boolean)
         .map(link => ({
             inline: true,
-            name: link?.includes('github')
-                ? 'Github'
-                : link?.includes('linkedin')
-                ? 'Linkedin'
-                : 'Twitter',
-            rawUrl: link,
-            value: link as string,
+            name: getLinkName(link as string),
+            rawUrl: formatSocial(
+                getLinkName(link as string) as keyof typeof socials,
+                link as string,
+            )[0],
+            value: formatSocial(
+                getLinkName(link as string) as keyof typeof socials,
+                link as string,
+            )[1],
         }));
 
-    embedMessage({
-        title: `${member.displayName}'s profile`,
-        description: `${member.displayName}'s profile`,
+    const message = embedMessage({
+        title: `${searchedMember.displayName}'s profile`,
+        description: `${userData?.intro}`,
         color: '#5bd64b',
-        thumbnail: member.user.displayAvatarURL(),
+        thumbnail: searchedMember.user.displayAvatarURL(),
         links,
     });
-    await interaction.reply({ content: `Found user ${member.displayName}!`, ephemeral: true });
+
+    await interaction.reply({
+        content: `${searchedMember.displayName}'s profile!`,
+        embeds: [message],
+        ephemeral: true,
+    });
 }
+
+const getLinkName = (link: string) =>
+    link?.includes('github') ? 'github' : link?.includes('linkedin') ? 'linkedin' : 'twitter';
