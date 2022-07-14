@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../lib/getProfile';
 import { embedMessage } from '../utils/embed-message';
-import { formatSocial, socials } from '../utils';
+import { formatSocial, getLinkName, socials } from '../utils';
 
 export const data = new SlashCommandBuilder()
     .setName('view-profile')
@@ -64,20 +64,17 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         value: link.value,
     }));
 
-    const message = embedMessage({
-        title: `${searchedMember.displayName}'s profile`,
-        description: `${userData?.intro}`,
-        color: '#5bd64b',
-        thumbnail: searchedMember.user.displayAvatarURL(),
-        links,
-    });
-
     await interaction.reply({
         content: `${searchedMember.displayName}'s profile!`,
-        embeds: [message],
+        embeds: [
+            embedMessage({
+                title: `${searchedMember.displayName}'s profile`,
+                description: `${userData?.intro}`,
+                color: '#5bd64b',
+                thumbnail: searchedMember.user.displayAvatarURL(),
+                links,
+            }),
+        ],
         ephemeral: true,
     });
 }
-
-const getLinkName = (link: string) =>
-    link?.includes('github') ? 'github' : link?.includes('linkedin') ? 'linkedin' : 'twitter';
