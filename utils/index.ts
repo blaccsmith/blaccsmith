@@ -5,6 +5,9 @@ export const socials = {
 };
 
 export const formatSocial = (name: keyof typeof socials, value: string) => {
-    const linkText = name === 'linkedin' ? 'View' : value;
-    return [`${socials[name]}/${value}`, `[${linkText}](${socials[name]}/${value})`];
+    const linkText = name === 'linkedin' ? value.split('in/').pop() : value;
+    return [`${socials[name]}/${linkText}`, `[View](${socials[name]}/${linkText})`];
 };
+
+export const getLinkName = (link: string) =>
+    link?.includes('github') ? 'github' : link?.includes('linkedin') ? 'linkedin' : 'twitter';
