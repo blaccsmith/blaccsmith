@@ -2,10 +2,11 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../lib/getProfile';
-import { updateProfile } from '../lib/updateProfile';
+import { Link, updateProfile } from '../lib/updateProfile';
 import { formatSocial, socials } from '../utils';
-import { embedMessage } from '../utils/embed-message';
 import logger from '../utils/logger';
+
+export type CommandInteractionOptionValue = string | number | boolean | undefined;
 
 export const data = new SlashCommandBuilder()
     .setName('update-profile')
@@ -39,6 +40,34 @@ export const data = new SlashCommandBuilder()
             .setDescription('What is your Twitter handle? Ex: twitter.com/{username}'),
     );
 
+const getUpdatedLinks = (
+    oldLinks: Map<string, string | undefined | null>,
+    newLinks: { name: string; value: any }[],
+): Link[] => {
+    const updatedLinks = newLinks.map(link => {
+        const name = link.name;
+        const value = link.value;
+
+        const data: any = {
+            inline: true,
+            name: link!.name[0].toUpperCase() + link!.name.slice(1),
+        };
+
+        if (value) {
+            data['rawUrl'] = formatSocial(name as keyof typeof socials, value as string)[0];
+            data['value'] = formatSocial(name as keyof typeof socials, value as string)[1];
+            return data;
+        }
+
+        return {
+            ...data,
+            rawUrl: oldLinks.get(name),
+            value: oldLinks.get(name)?.split('.com/')[1],
+        };
+    }, oldLinks);
+
+    return updatedLinks;
+};
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const member = interaction.member as GuildMember;
     const status = interaction.options.get('status');
@@ -54,28 +83,36 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const userData = await getProfile({ discordId: member.user.id });
 
-    const oldUserLinks = {
-        github: userData?.github,
-        linkedin: userData?.linkedin,
-        twitter: userData?.twitter,
-    };
+    const oldLinks = new Map<string, string | undefined | null>([
+        ['github', userData?.github],
+        ['linkedin', userData?.linkedin],
+        ['twitter', userData?.twitter],
+    ]);
 
-    const links = [github, linkedin, twitter].map(link => ({
-        inline: true,
-        name: link!.name[0].toUpperCase() + link!.name.slice(1),
-        rawUrl:
-            formatSocial(link!.name as keyof typeof socials, link!.value as string)[0] ??
-            oldUserLinks[link?.name as keyof typeof oldUserLinks],
-        value:
-            formatSocial(link!.name as keyof typeof socials, link!.value as string)[1] ??
-            oldUserLinks[link?.name as keyof typeof oldUserLinks]?.split('.com/')[1],
-    }));
+    const newLinks: { name: string; value: CommandInteractionOptionValue }[] = [
+        {
+            name: 'github',
+            value: github?.value,
+        },
+        {
+            name: 'linkedin',
+            value: linkedin?.value,
+        },
+        {
+            name: 'twitter',
+            value: twitter?.value,
+        },
+    ];
+
+    const updatedIntro = intro ? intro : (userData?.intro as string);
+    const updatedStatus = status?.value ?? userData?.status;
+    const updatedLinks = getUpdatedLinks(oldLinks, newLinks);
 
     const updatedValues = {
         id: member.id,
-        status: status ?? (userData?.status as string),
-        intro: intro ?? (userData?.intro as string),
-        links,
+        status: updatedStatus,
+        intro: updatedIntro,
+        links: updatedLinks,
     };
 
     await Promise.all([
@@ -85,17 +122,13 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             content: 'Profile updated! Use /view-profile to view your updated card!',
             ephemeral: true,
         }),
+        logger({
+            project: 'blacc',
+            channel: 'General',
+            event: 'Updated Profile',
+            description: member.user.tag,
+            icon: '🟢',
+            notify: true,
+        }),
     ]);
-
-    await logger({
-        project: 'blacc',
-        channel: 'welcome',
-        event: 'New introduction',
-        description: member.user.tag,
-        icon: '🟢',
-        notify: true,
-    });
-
-    await updateProfile({ id: member.id, status, links, intro });
-    await interaction.reply({ content: `Thank you for another intro!`, ephemeral: true });
 }
