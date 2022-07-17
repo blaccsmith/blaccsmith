@@ -10,7 +10,7 @@ export type CommandInteractionOptionValue = string | number | boolean | undefine
 
 export const data = new SlashCommandBuilder()
     .setName('update-profile')
-    .setDescription("Update a user's profile")
+    .setDescription('Update your profile card')
     .addStringOption(option => option.setName('intro').setDescription('Write your intro here'))
     .addStringOption(option =>
         option
