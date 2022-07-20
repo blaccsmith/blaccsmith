@@ -6,7 +6,7 @@ import { embedMessage } from '../utils/embed-message';
 import { formatSocial, getLinkName, socials } from '../utils';
 
 export const data = new SlashCommandBuilder()
-    .setName('see-profile')
+    .setName('view-profile')
     .setDescription('Find a user by their username')
     .addStringOption(option =>
         option
