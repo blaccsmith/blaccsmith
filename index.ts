@@ -48,14 +48,14 @@ for (const file of getEventFiles()) {
 client.login(CONSTANTS.DISCORD_TOKEN);
 
 // Good news Friday Event
-// scheduledEvent({
-//     scheduling: '0 0 * * FRI',
-//     scheduledStartTime: new Date(Date.now() + 1000 * 3600 * 8),
-//     scheduledEndTime: new Date(Date.now() + 1000 * 3600 * 16),
-//     name: 'Good News Friday 🥳',
-//     description:
-//         "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
-//     channel: CONSTANTS.GENERAL_CHANNEL_ID,
-//     entityType: 'EXTERNAL',
-//     entityMetadata: { location: '#general channel' },
-// });
+scheduledEvent({
+    scheduling: '0 0 * * FRI',
+    scheduledStartTime: new Date(Date.now() + 1000 * 3600 * 8),
+    scheduledEndTime: new Date(Date.now() + 1000 * 3600 * 16),
+    name: 'Good News Friday 🥳',
+    description:
+        "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
+    channel: CONSTANTS.GENERAL_CHANNEL_ID,
+    entityType: 'EXTERNAL',
+    entityMetadata: { location: '#general channel' },
+});
