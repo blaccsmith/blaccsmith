@@ -21,12 +21,9 @@ export const execute = async (reaction: MessageReaction, user: User) => {
     const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
     const member = await guild.members.fetch(user.id);
 
-    // handle new server member
     if (member.roles.cache.every(role => role.name === '@everyone')) {
         await member.roles.add(CONSTANTS.SPECTATOR_ROLE_ID);
-    }
-    // handle OG member
-    else if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
+    } else if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
         await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
         await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
     }
