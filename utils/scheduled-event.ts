@@ -32,11 +32,13 @@ export const scheduledEvent = async ({
             const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
             if (!guild) {
+                console.log('Failed...logging');
+
                 await logger({
                     project: 'blacc',
                     channel: 'Events',
                     event: 'Schedueld Event',
-                    description: 'Failed creating scheduled event',
+                    description: `Failed creating ${name} event`,
                     icon: '🔴',
                     notify: true,
                 });
@@ -47,7 +49,6 @@ export const scheduledEvent = async ({
             console.log('Event scheduled!');
         },
         {
-            scheduled: true,
             timezone: 'America/Chicago',
         },
     );
