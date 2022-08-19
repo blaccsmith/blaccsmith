@@ -8,7 +8,7 @@
     "scripts": {
         "generate": "npx prisma generate",
         "start": "tsc && node dist/",
-        "run-bot": "yarn generate && yarn cmd && yarn start",
+        "run-bot": "yarn generate && yarn start",
         "cmd": "tsc && node dist/commands.js"
     },
     "dependencies": {

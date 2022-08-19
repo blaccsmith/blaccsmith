@@ -1,13 +1,21 @@
-import { Client } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
-import { getEventFiles } from './utils/get-sys-files';
+import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
 import { scheduledEvent } from './utils/scheduled-event';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
     partials: CONSTANTS.BOT_PARTIALS,
 });
+
+client.commands = new Collection();
+
+// Register slash commands
+for (const file of getCommandFiles()) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.data.name, command);
+}
 
 // Listen for slash commands
 client.on('interactionCreate', async interaction => {
