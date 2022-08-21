@@ -32,8 +32,6 @@ export const scheduledEvent = async ({
             const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
 
             if (!guild) {
-                console.log('Failed...logging');
-
                 await logger({
                     project: 'blacc',
                     channel: 'Events',
