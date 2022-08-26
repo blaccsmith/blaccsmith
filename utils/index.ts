@@ -11,3 +11,5 @@ export const formatSocial = (name: keyof typeof socials, value: string) => {
 
 export const getLinkName = (link: string) =>
     link?.includes('github') ? 'github' : link?.includes('linkedin') ? 'linkedin' : 'twitter';
+
+export const runScheduledEvents = (events: (() => void)[]) => events.forEach(fn => fn());
