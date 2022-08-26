@@ -77,7 +77,10 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const intro = interaction.options.getString('intro');
 
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
-        await interaction.reply({ content: `You must be a member to update your profile!` });
+        await interaction.reply({
+            content: `You must be a member to update your profile!`,
+            ephemeral: true,
+        });
         return;
     }
 
