@@ -12,4 +12,11 @@ export const formatSocial = (name: keyof typeof socials, value: string) => {
 export const getLinkName = (link: string) =>
     link?.includes('github') ? 'github' : link?.includes('linkedin') ? 'linkedin' : 'twitter';
 
-export const formatDate = (x: number) => (x.toString().length < 2 ? `0${x}` : x);
+export const addLeadingZero = (x: number) => (x.toString().length < 2 ? `0${x}` : x);
+
+export const getFormattedDate = () => {
+    const dateObj = new Date();
+    return `${dateObj.getUTCFullYear()}-${addLeadingZero(
+        dateObj.getUTCMonth() + 1,
+    )}-${addLeadingZero(dateObj.getUTCDate())}`;
+};
