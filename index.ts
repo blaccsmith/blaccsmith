@@ -1,4 +1,3 @@
-const cron = require('node-cron');
 import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
@@ -45,6 +44,7 @@ for (const file of getEventFiles()) {
     }
 }
 
+// Running all bot automations
 for (const file of getAutomations()) {
     const automation = require(`./automations/${file}`);
     automation.run();
