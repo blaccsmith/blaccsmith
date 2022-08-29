@@ -2,7 +2,7 @@ import cron = require('node-cron');
 import { TextChannel } from 'discord.js';
 import { client } from '..';
 import { CONSTANTS } from '../constants';
-import { getFormattedDate } from '../utils';
+import { formatISO } from 'date-fns';
 import { scheduledEvent } from '../utils/scheduled-event';
 
 /**
@@ -24,7 +24,7 @@ export const run = () => {
 
     // Message memebers
     cron.schedule('0 8 * * FRI', async () => {
-        const date = getFormattedDate();
+        const date = formatISO(new Date(), { representation: 'date' });
         const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
         const channel = guild?.channels.cache.get(CONSTANTS.GENERAL_CHANNEL_ID) as TextChannel;
 
