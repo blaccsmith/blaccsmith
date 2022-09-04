@@ -50,12 +50,16 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const twitter = interaction.options.get('twitter');
     const intro = interaction.options.getString('intro');
 
-    const links = [github, linkedin, twitter].filter(Boolean).map(link => ({
-        inline: true,
-        name: link!.name[0].toUpperCase() + link!.name.slice(1),
-        rawUrl: formatSocial(link!.name as keyof typeof socials, link!.value as string)[0],
-        value: formatSocial(link!.name as keyof typeof socials, link!.value as string)[1],
-    }));
+    const links = [github, linkedin, twitter].filter(Boolean).map(link => {
+        const socialLinks = formatSocial(link!.name as keyof typeof socials, link!.value as string);
+        
+        return {
+            inline: true,
+            name: link!.name[0].toUpperCase() + link!.name.slice(1),
+            rawUrl: socialLinks[0],
+            value: socialLinks[1],
+        }
+    });
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
         await interaction.reply({
