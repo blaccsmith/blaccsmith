@@ -33,7 +33,7 @@ export const data = new SlashCommandBuilder()
     .addStringOption(option =>
         option
             .setName('linkedin')
-            .setDescription('What is your LinkedinIn username? Ex: linkedin.com/in/{username}'),
+            .setDescription('What is your LinkedIn username? Ex: linkedin.com/in/{username}'),
     )
     .addStringOption(option =>
         option
