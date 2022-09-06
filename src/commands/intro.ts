@@ -33,7 +33,7 @@ export const data = new SlashCommandBuilder()
     .addStringOption(option =>
         option
             .setName('linkedin')
-            .setDescription('What is your LinkedinIn username? Ex: linkedin.com/in/{username}'),
+            .setDescription('What is your LinkedIn username? Ex: linkedin.com/in/{username}'),
     )
     .addStringOption(option =>
         option
@@ -50,12 +50,16 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const twitter = interaction.options.get('twitter');
     const intro = interaction.options.getString('intro');
 
-    const links = [github, linkedin, twitter].filter(Boolean).map(link => ({
-        inline: true,
-        name: link!.name[0].toUpperCase() + link!.name.slice(1),
-        rawUrl: formatSocial(link!.name as keyof typeof socials, link!.value as string)[0],
-        value: formatSocial(link!.name as keyof typeof socials, link!.value as string)[1],
-    }));
+    const links = [github, linkedin, twitter].filter(Boolean).map(link => {
+        const socialLinks = formatSocial(link!.name as keyof typeof socials, link!.value as string);
+        
+        return {
+            inline: true,
+            name: link!.name[0].toUpperCase() + link!.name.slice(1),
+            rawUrl: socialLinks[0],
+            value: socialLinks[1],
+        }
+    });
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
         await interaction.reply({
@@ -68,8 +72,9 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
         await Promise.all([
             member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
+            member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID),
             updateProfile({ id: member.id, status, links, intro }),
-            channel.send({
+            channel?.send({
                 embeds: [
                     embedMessage({
                         title: `Welcome ${member.displayName}!`,
