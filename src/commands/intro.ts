@@ -72,8 +72,9 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
         await Promise.all([
             member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
+            member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID),
             updateProfile({ id: member.id, status, links, intro }),
-            channel.send({
+            channel?.send({
                 embeds: [
                     embedMessage({
                         title: `Welcome ${member.displayName}!`,
