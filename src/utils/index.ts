@@ -5,7 +5,13 @@ export const socials = {
 };
 
 export const formatSocial = (name: keyof typeof socials, value: string) => {
-    const linkText = name === 'linkedin' ? value.split('in/').pop() : value;
+    // Strip any trailing slashes
+    let linkText = value.replace(/\/+$/, '')
+    // Get last path segment from any URL format
+    linkText = linkText.split('/').pop() ?? linkText;
+    // Strip @ prefix
+    linkText = (linkText.indexOf('@') == 0) ? linkText.substring(1) : linkText;
+
     return [`${socials[name]}/${linkText}`, `[View](${socials[name]}/${linkText})`];
 };
 
