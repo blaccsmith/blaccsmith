@@ -9,5 +9,6 @@
     "outDir": "dist"
   },
   "lib": ["es2015"],
-  "exclude": ["commands/example.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/commands/example.ts"]
 }
