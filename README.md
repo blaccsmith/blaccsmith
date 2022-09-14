@@ -1,6 +1,6 @@
 ## BLACC 🤝 Open Source
 
-All of these repos are open source initiatives that you can contribute to!
+Check out these open source initiatives you can contribute to!
 
 🤖 [blaccsmith](https://github.com/blaccsmith/blaccsmith) is our official Discord bot using [DiscordJS](https://discordjs.guide/)✨
 
