@@ -1,8 +1,7 @@
 import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
-import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
-import { scheduledEvent } from './utils/scheduled-event';
+import { getAutomations, getCommandFiles, getEventFiles } from './utils/get-sys-files';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
@@ -45,17 +44,10 @@ for (const file of getEventFiles()) {
     }
 }
 
-client.login(CONSTANTS.DISCORD_TOKEN);
+// Running all bot automations
+for (const file of getAutomations()) {
+    const automation = require(`./automations/${file}`);
+    automation.run();
+}
 
-// Good news Friday Event
-scheduledEvent({
-    scheduling: '0 0 * * FRI',
-    scheduledStartTime: new Date(Date.now() + 1000 * 3600 * 8),
-    scheduledEndTime: new Date(Date.now() + 1000 * 3600 * 16),
-    name: 'Good News Friday 🥳',
-    description:
-        "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
-    channel: CONSTANTS.GENERAL_CHANNEL_ID,
-    entityType: 'EXTERNAL',
-    entityMetadata: { location: '#general channel' },
-});
+client.login(CONSTANTS.DISCORD_TOKEN);
