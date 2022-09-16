@@ -23,7 +23,7 @@ export const run = () => {
     });
 
     // Message memebers
-    cron.schedule('*/5 * * * * *' ?? '0 8 * * FRI', async () => {
+    cron.schedule('0 8 * * FRI', async () => {
         const date = formatISO(new Date(), { representation: 'date' });
         const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
         const channel = guild?.channels.cache.get(CONSTANTS.GENERAL_CHANNEL_ID) as TextChannel;
