@@ -29,6 +29,6 @@ export const updateProfile = async (args: UpdateProfileArgs) => {
     await prisma.user.upsert({
         where: { discordId: args.id },
         create: { discordId: args.id, profile: { create: profileData } },
-        update: { profile: { update: profileData } },
+        update: { profile: { upsert: { create: profileData, update: profileData } } },
     });
 };
