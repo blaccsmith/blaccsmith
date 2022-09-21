@@ -1,7 +1,7 @@
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
-import { getProfile } from '../lib/getProfile';
+import { getProfile } from '../utils/getProfile';
 import { embedMessage } from '../utils/embed-message';
 import { formatSocial, getLinkName, socials, messageReply } from '../utils';
 
