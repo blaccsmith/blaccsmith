@@ -5,3 +5,6 @@ export const getCommandFiles = () =>
 
 export const getEventFiles = () =>
     fs.readdirSync('./dist/events').filter(file => file.endsWith('.js'));
+
+export const getAutomations = () =>
+    fs.readdirSync('./dist/automations').filter(file => file.endsWith('.js'));
