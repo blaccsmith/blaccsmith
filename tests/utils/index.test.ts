@@ -1,4 +1,4 @@
-import { socials, formatSocial } from '../../src/utils/index';
+import { formatSocial } from '../../src/utils/index';
 
 describe('testing GitHub inputs', () => {
     test('username should result in full URL', () => {
