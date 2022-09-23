@@ -8,6 +8,7 @@ export const CONSTANTS = Object.freeze({
     CLIENT_ID: process.env.CLIENT_ID as string,
     GUILD_ID: process.env.GUILD_ID as string,
     GENERAL_CHANNEL_ID: process.env.GENERAL_CHANNEL_ID as string,
+    MODERATOR_CHANNEL_ID: process.env.MODERATOR_CHANNEL_ID as string,
     WELCOME_CHANNEL_ID: process.env.WELCOME_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_CHANNEL_ID: process.env.COMMUNITY_GUIDELINES_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_MESSAGE_ID: process.env.COMMUNITY_GUIDELINES_MESSAGE_ID as string,

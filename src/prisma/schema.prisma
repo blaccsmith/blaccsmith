@@ -140,3 +140,9 @@ model Comment {
   @@index([authorId])
   @@index([postId])
 }
+
+model wcwTopic {
+  id    Int     @id @default(autoincrement())
+  topic String  @db.Text
+  used  Boolean
+}
