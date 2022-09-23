@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../utils/getProfile';
-import { Link, updateProfile } from '../lib/updateProfile';
+import { Link, updateProfile } from '../utils/updateProfile';
 import { formatSocial, socials } from '../utils';
 import logger from '../utils/logger';
 
