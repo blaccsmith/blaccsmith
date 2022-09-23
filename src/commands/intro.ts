@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { formatSocial, socials } from '../utils';
 import { embedMessage } from '../utils/embed-message';
-import { updateProfile } from '../lib/updateProfile';
+import { updateProfile } from '../utils/updateProfile';
 import logger from '../utils/logger';
 
 export const data = new SlashCommandBuilder()
@@ -52,13 +52,13 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const links = [github, linkedin, twitter].filter(Boolean).map(link => {
         const socialLinks = formatSocial(link!.name as keyof typeof socials, link!.value as string);
-        
+
         return {
             inline: true,
             name: link!.name[0].toUpperCase() + link!.name.slice(1),
             rawUrl: socialLinks[0],
             value: socialLinks[1],
-        }
+        };
     });
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
