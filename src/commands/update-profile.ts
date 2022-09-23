@@ -2,8 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../utils/getProfile';
-import { Link, updateProfile } from '../utils/updateProfile';
-import { formatSocial, socials } from '../utils';
+import { updateProfile } from '../utils/updateProfile';
+import { getUpdatedLinks } from '../utils';
 import logger from '../utils/logger';
 
 export type CommandInteractionOptionValue = string | number | boolean | undefined;
@@ -40,34 +40,6 @@ export const data = new SlashCommandBuilder()
             .setDescription('What is your Twitter handle? Ex: twitter.com/{username}'),
     );
 
-const getUpdatedLinks = (
-    oldLinks: Map<string, string | undefined | null>,
-    newLinks: { name: string; value: any }[],
-): Link[] => {
-    const updatedLinks = newLinks.map(link => {
-        const name = link.name;
-        const value = link.value;
-
-        const data: any = {
-            inline: true,
-            name: link!.name[0].toUpperCase() + link!.name.slice(1),
-        };
-
-        if (value) {
-            data['rawUrl'] = formatSocial(name as keyof typeof socials, value as string)[0];
-            data['value'] = formatSocial(name as keyof typeof socials, value as string)[1];
-            return data;
-        }
-
-        return {
-            ...data,
-            rawUrl: oldLinks.get(name),
-            value: oldLinks.get(name)?.split('.com/')[1],
-        };
-    }, oldLinks);
-
-    return updatedLinks;
-};
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const member = interaction.member as GuildMember;
     const status = interaction.options.get('status');
