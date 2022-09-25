@@ -1,0 +1,12 @@
+[
+    {
+        "expression": "0 0 * * FRI",
+        "name": "Good News Friday 🥳",
+        "description": "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
+        "channel": "moderator-only",
+        "entityType": "EXTERNAL",
+        "entityMetadata": {
+            "location": "#general channel"
+        }
+    }
+]
