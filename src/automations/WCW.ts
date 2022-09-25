@@ -23,7 +23,7 @@ export const run = () => {
                 CONSTANTS.MODERATOR_CHANNEL_ID,
             ) as TextChannel;
             return await channel.send(
-                'All Water Cooler Wednesday topics have been used ❗️ Add a new one with /update-wcw command',
+                "All Water Cooler Wednesday topics have been used ❗️ Add a new one with `/update-wcw` command",
             );
         }
     });
