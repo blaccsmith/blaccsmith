@@ -1,7 +1,7 @@
 import { Client, Collection } from 'discord.js';
 import { CONSTANTS } from './constants';
 import { ClientWithCommands } from './types';
-import { getAutomations, getCommandFiles, getEventFiles } from './utils/get-sys-files';
+import { getCommandFiles, getEventFiles } from './utils/get-sys-files';
 
 export const client: ClientWithCommands = new Client({
     intents: CONSTANTS.BOT_INTENTS,
@@ -42,12 +42,6 @@ for (const file of getEventFiles()) {
     } else {
         client.on(event.name, (...args) => event.execute(...args));
     }
-}
-
-// Running all bot automations
-for (const file of getAutomations()) {
-    const automation = require(`./automations/${file}`);
-    automation.run();
 }
 
 client.login(CONSTANTS.DISCORD_TOKEN);
