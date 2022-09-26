@@ -20,6 +20,7 @@ export const CONSTANTS = Object.freeze({
     BOT_PARTIALS: ['MESSAGE', 'CHANNEL', 'REACTION'] as PartialTypes[],
     SPECTATOR_ROLE_ID: process.env.SPECTATOR_ROLE_ID as string,
     MEMBER_ROLE_ID: process.env.MEMBER_ROLE_ID as string,
+    MODERATORS: [process.env.GARY_ID, process.env.GARRETT_ID, process.env.DARRYL_ID],
     _5_SECONDS: 5000,
     _1_HOUR: 3600000,
     _6_HOURS: 21600000,
