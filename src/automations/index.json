@@ -1,0 +1,39 @@
+[
+    {
+        "type": "event",
+        "expression": "0 0 * * FRI",
+        "name": "Good News Friday 🥳",
+        "description": "It's Good News Friday and we want to celebrate your wins this week! Come share your accomplishments with us!",
+        "channel": "moderator-only",
+        "entityType": "EXTERNAL",
+        "entityMetadata": {
+            "location": "#general channel"
+        }
+    },
+    {
+        "type": "event",
+        "expression": "0 8 * * TUE",
+        "name": "💦 Water Cooler Wednesday",
+        "description": "It's 💦 Water Cooler Wednesday 🥳 Wanna know what we're chatting about? Hop in the `#general` channel and let us know if you have an interesting opinion or something you want to share!",
+        "channel": "general",
+        "entityType": "EXTERNAL",
+        "entityMetadata": {
+            "location": "#general channel"
+        }
+    },
+    {
+        "type": "job",
+        "expression": "0 8 * * MON",
+        "callback": "verify-wcw-topic"
+    },
+    {
+        "type": "job",
+        "expression": "0 8 * * WED",
+        "callback": "create-wcw-thread"
+    },
+    {
+        "type": "job",
+        "expression": "0 8 * * FRI",
+        "callback": "create-gnf-thread"
+    }
+]
