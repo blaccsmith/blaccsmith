@@ -23,7 +23,7 @@
     },
     {
         "type": "job",
-        "expression": "0 * * * MON",
+        "expression": "0 8 * * MON",
         "callback": "verify-wcw-topic"
     },
     {
