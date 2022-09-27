@@ -4,13 +4,13 @@ import { client } from '..';
 import { CONSTANTS } from '../constants';
 import automations from './index.json';
 
+const scheduleOptions = { timezone: 'America/Chicago' };
+
 export default function run() {
     automations.forEach(({ type, ...details }) => {
         if (type === 'job') {
             const callback = require(`./${details.callback}`);
-            schedule(details.expression, callback.default,{
-                timezone: 'America/Chicago',
-            });
+            schedule(details.expression, callback.default, scheduleOptions);
         } else {
             const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
             const channel = guild?.channels.cache.find(
@@ -23,7 +23,11 @@ export default function run() {
                 channel,
             } as GuildScheduledEventCreateOptions;
 
-            schedule(details.expression, () => guild?.scheduledEvents.create(options));
+            schedule(
+                details.expression,
+                () => guild?.scheduledEvents.create(options),
+                scheduleOptions,
+            );
         }
     });
 }
