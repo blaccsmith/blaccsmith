@@ -8,7 +8,9 @@ export default function run() {
     automations.forEach(({ type, ...details }) => {
         if (type === 'job') {
             const callback = require(`./${details.callback}`);
-            schedule(details.expression, callback.default);
+            schedule(details.expression, callback.default,{
+                timezone: 'America/Chicago',
+            });
         } else {
             const guild = client.guilds.cache.get(CONSTANTS.GUILD_ID);
             const channel = guild?.channels.cache.find(
