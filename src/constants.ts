@@ -30,4 +30,9 @@ export const CONSTANTS = Object.freeze({
         url: process.env.LOG_URL as string,
         headers: { Authorization: `Bearer ${process.env.LOG_TOKEN as string}` },
     },
+    DEFAULT_EVENT_OPTIONS: {
+        privacyLevel: 'GUILD_ONLY',
+        scheduledStartTime: new Date(Date.now() + 1000 * 3600 * 8),
+        scheduledEndTime: new Date(Date.now() + 1000 * 3600 * 16),
+    },
 });
