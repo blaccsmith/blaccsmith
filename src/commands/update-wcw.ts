@@ -1,4 +1,4 @@
-import { CommandInteraction, CacheType, User } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { addTopic } from '../lib/addTopic';
@@ -13,15 +13,13 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const topic = interaction.options.getString('topic') as string;
-    const interactionAuthor = interaction.member?.user as User;
+    const member = interaction.member as GuildMember;
 
-    if (!CONSTANTS.MODERATORS.includes(interactionAuthor.id)) {
-        await Promise.allSettled([
-            interaction.reply({
-                content: '🚨 You do not have privileges to add WCW topics',
-                ephemeral: true,
-            }),
-        ]);
+    if (!member.roles.cache.has(CONSTANTS.MODERATOR_ROLE_ID)) {
+        await interaction.reply({
+            content: '🚨 You do not have privileges to add WCW topics',
+            ephemeral: true,
+        });
         return;
     }
 
@@ -35,8 +33,8 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             project: 'blacc',
             channel: 'general',
             event: 'WCW topic added',
-            description: interactionAuthor.tag,
-            icon: '🟡',
+            description: member.id,
+            icon: '🟢',
             notify: true,
         }),
     ]);
