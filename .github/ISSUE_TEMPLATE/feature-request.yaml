@@ -1,7 +1,7 @@
 name: Feature request
 description: Suggest an idea for this project
 title: "💡 Feature request"
-labels: [💡 Feature Request]
+labels: ["feature"]
 assignees:
   - gt-codes
   - DarrylBrooks97
