@@ -33,7 +33,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             project: 'blacc',
             channel: 'general',
             event: 'WCW topic added',
-            description: member.id,
+            description: `Called by ${member.id}`,
             icon: '🟢',
             notify: true,
         }),

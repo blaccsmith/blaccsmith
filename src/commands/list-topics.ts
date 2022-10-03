@@ -23,9 +23,9 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         logger({
             project: 'blacc',
             channel: 'general',
-            event: 'Viewing WCW topics',
+            event: 'Listing WCW topics',
             description: `Called by ${member.id}`,
-            icon: '🟢',
+            icon: '👂🏿',
             notify: true,
         }),
     ]);
