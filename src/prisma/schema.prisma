@@ -142,9 +142,9 @@ model Comment {
 }
 
 model wcwTopic {
-  id    Int     @id @default(autoincrement())
-  topic String  @db.Text
-  used  Boolean
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  topic     String   @db.Text
+  used      Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

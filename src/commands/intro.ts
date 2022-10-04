@@ -92,7 +92,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             channel: 'welcome',
             event: 'New introduction',
             description: member.user.tag,
-            icon: '🟢',
+            icon: '👋',
             notify: true,
         });
         return;

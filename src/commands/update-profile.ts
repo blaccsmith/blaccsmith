@@ -127,7 +127,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             channel: 'General',
             event: 'Updated Profile',
             description: member.user.tag,
-            icon: '🟢',
+            icon: '📝',
             notify: true,
         }),
     ]);
