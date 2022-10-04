@@ -9,14 +9,14 @@ export const data = new SlashCommandBuilder()
     .setName('update-topic')
     .setDescription('Update a topic for Water Cooler Wednesdays 💦')
     .addNumberOption(option =>
-        option.setName('topicId').setDescription('The topic to update').setRequired(true),
+        option.setName('topic-id').setDescription('The topic to update').setRequired(true),
     )
     .addStringOption(option =>
         option.setName('topic').setDescription('What should it update to?').setRequired(true),
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
-    const topicId = interaction.options.getNumber('topicId') as number;
+    const topicId = interaction.options.getNumber('topic-id') as number;
     const topic = interaction.options.getString('topic') as string;
     const member = interaction.member as GuildMember;
 
