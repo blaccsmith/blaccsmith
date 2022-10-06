@@ -1,9 +1,10 @@
-import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember, TextChannel, Message } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { formatSocial, socials } from '../utils';
 import { embedMessage } from '../utils/embed-message';
 import { updateProfile } from '../lib/updateProfile';
+import { deleteOnBoardingMessage } from '../lib/deleteMessage';
 import logger from '../utils/logger';
 
 export const data = new SlashCommandBuilder()
@@ -52,13 +53,12 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const links = [github, linkedin, twitter].filter(Boolean).map(link => {
         const socialLinks = formatSocial(link!.name as keyof typeof socials, link!.value as string);
-        
         return {
             inline: true,
             name: link!.name[0].toUpperCase() + link!.name.slice(1),
             rawUrl: socialLinks[0],
             value: socialLinks[1],
-        }
+        };
     });
 
     if (channel?.id !== CONSTANTS.WELCOME_CHANNEL_ID) {
@@ -72,7 +72,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     if (!member.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
         await Promise.all([
             member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
-            member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID),
+            member.roles.remove(CONSTANTS.ONBOARDING_ROLE_ID),
             updateProfile({ id: member.id, status, links, intro }),
             channel?.send({
                 embeds: [
@@ -86,7 +86,9 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                 ],
             }),
             interaction.reply({ content: 'Welcome to the server!', ephemeral: true }),
+            deleteOnBoardingMessage(member),
         ]);
+
         await logger({
             project: 'blacc',
             channel: 'welcome',

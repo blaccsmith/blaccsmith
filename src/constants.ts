@@ -10,6 +10,7 @@ export const CONSTANTS = Object.freeze({
     GENERAL_CHANNEL_ID: process.env.GENERAL_CHANNEL_ID as string,
     MODERATOR_CHANNEL_ID: process.env.MODERATOR_CHANNEL_ID as string,
     WELCOME_CHANNEL_ID: process.env.WELCOME_CHANNEL_ID as string,
+    ONBOARDING_CHANNEL_ID: process.env.ONBOARDING_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_CHANNEL_ID: process.env.COMMUNITY_GUIDELINES_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_MESSAGE_ID: process.env.COMMUNITY_GUIDELINES_MESSAGE_ID as string,
     BOT_INTENTS: [
@@ -19,7 +20,7 @@ export const CONSTANTS = Object.freeze({
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     ],
     BOT_PARTIALS: ['MESSAGE', 'CHANNEL', 'REACTION'] as PartialTypes[],
-    SPECTATOR_ROLE_ID: process.env.SPECTATOR_ROLE_ID as string,
+    ONBOARDING_ROLE_ID: process.env.ONBOARDING_ROLE_ID as string,
     MEMBER_ROLE_ID: process.env.MEMBER_ROLE_ID as string,
     MODERATOR_ROLE_ID: process.env.MODERATOR_ROLE_ID as string,
     _5_SECONDS: 5000,
