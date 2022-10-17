@@ -1,6 +1,7 @@
-import { CommandInteraction, CacheType, TextChannel } from 'discord.js';
+import { CommandInteraction, CacheType, TextChannel, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { embedMessage } from '../utils/embed-message';
+import logger from '../utils/logger';
 
 export const data = new SlashCommandBuilder()
     .setName('asking-for-a-friend')
@@ -16,6 +17,7 @@ export const data = new SlashCommandBuilder()
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
+    const member = interaction.member as GuildMember;
     const channelValue = interaction.options.get('channel');
     const question = interaction.options.getString('question');
 
@@ -46,9 +48,18 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         ],
     });
 
-    interaction.reply({
-        content: `Your question has been sent! Check it out: <#${channel.id}>`,
-        ephemeral: true,
-    });
-    console.log(`❓ Someone asked anonymously in #${channel.name}`);
+    await Promise.all([
+        interaction.reply({
+            content: `Your question has been sent! Check it out: <#${channel.id}>`,
+            ephemeral: true,
+        }),
+        logger({
+            project: 'blacc',
+            channel: 'general',
+            event: `Someone asked anonymously in #${channel.name}`,
+            description: `Called by ${member.id}`,
+            icon: '❓',
+            notify: true,
+        }),
+    ]);
 }

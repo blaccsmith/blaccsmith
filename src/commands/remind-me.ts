@@ -50,7 +50,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         channel: 'remind-me',
         event: 'Reminder has been sent',
         description: interactionAuthor.tag,
-        icon: '🟡',
+        icon: '🎗️',
         notify: true,
     });
 }
