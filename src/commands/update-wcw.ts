@@ -39,7 +39,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const filter = (i: MessageComponentInteraction<'cached'>) =>
         i.customId === 'confirm' || i.customId === 'cancel';
 
-    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 600 });
+    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 5000 });
 
     collector?.on('collect', async (i: any) => {
         if (i.customId === 'confirm') {
