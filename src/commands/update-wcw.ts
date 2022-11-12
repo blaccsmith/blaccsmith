@@ -1,8 +1,9 @@
-import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember, MessageActionRow } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { addTopic } from '../lib/addTopic';
 import logger from '../utils/logger';
+import { ConfirmationButton } from '../lib/components/confirmation-button';
 
 export const data = new SlashCommandBuilder()
     .setName('update-wcw')
@@ -22,38 +23,19 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         });
         return;
     }
-    // ask user to confirm topic
+
     await interaction.reply({
         content: `Are you sure you want to add the topic: ${topic}?`,
-        components: [
-            {
-                type: 'ACTION_ROW',
-                components: [
-                    {
-                        type: 'BUTTON',
-                        style: 'SUCCESS',
-                        customId: 'confirm',
-                        label: 'Confirm',
-                    },
-                    {
-                        type: 'BUTTON',
-                        style: 'DANGER',
-                        customId: 'cancel',
-                        label: 'Cancel',
-                    },
-                ],
-            },
-        ],
+        components: ConfirmationButton,
     });
 
-    // wait for user to confirm or cancel
     const filter = (i: any) => i.customId === 'confirm' || i.customId === 'cancel';
     const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 15000 });
 
     collector?.on('collect', async (i: any) => {
         if (i.customId === 'confirm') {
             await Promise.all([
-                // addTopic(topic),
+                addTopic(topic),
                 interaction.editReply({
                     content: `✅ Topic added: ${topic}`,
                     components: [],
@@ -95,7 +77,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                 logger({
                     project: 'blacc',
                     channel: 'general',
-                    event: 'adding wcw topic cancelled',
+                    event: 'Adding wcw topic timed out',
                     description: `called by ${member.id}`,
                     icon: '🔴',
                     notify: true,
@@ -103,19 +85,4 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             ]);
         }
     });
-    // await Promise.all([
-    //     addTopic(topic),
-    //     interaction.reply({
-    //         content: 'Topic has been added ✅',
-    //         ephemeral: true,
-    //     }),
-    //     logger({
-    //         project: 'blacc',
-    //         channel: 'general',
-    //         event: 'WCW topic added',
-    //         description: `Called by ${member.id}`,
-    //         icon: '🟢',
-    //         notify: true,
-    //     }),
-    // ]);
 }
