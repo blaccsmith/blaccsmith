@@ -1,4 +1,11 @@
-import { CommandInteraction, CacheType, GuildMember, MessageActionRow } from 'discord.js';
+import {
+    CommandInteraction,
+    CacheType,
+    GuildMember,
+    MessageActionRow,
+    MessageActionRowComponent,
+    MessageComponentInteraction,
+} from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { addTopic } from '../lib/addTopic';
@@ -29,8 +36,10 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         components: ConfirmationButton,
     });
 
-    const filter = (i: any) => i.customId === 'confirm' || i.customId === 'cancel';
-    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 15000 });
+    const filter = (i: MessageComponentInteraction<'cached'>) =>
+        i.customId === 'confirm' || i.customId === 'cancel';
+
+    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 600 });
 
     collector?.on('collect', async (i: any) => {
         if (i.customId === 'confirm') {
