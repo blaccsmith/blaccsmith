@@ -86,7 +86,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                 ],
             }),
             interaction.reply({ content: 'Welcome to the server!', ephemeral: true }),
-            deleteOnBoardingMessage(member),
+            deleteOnBoardingMessage(interaction, member),
         ]);
 
         await logger({

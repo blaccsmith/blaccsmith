@@ -1,9 +1,11 @@
-import { GuildMember, TextChannel, Message } from 'discord.js';
-import { client } from '..';
+import { GuildMember, TextChannel, Message, CacheType, CommandInteraction } from 'discord.js';
 import { CONSTANTS } from '../constants';
 
-export const deleteOnBoardingMessage = async (member: GuildMember) => {
-    const onBoardingChannel = (await client.channels.fetch(
+export const deleteOnBoardingMessage = async (
+    interaction: CommandInteraction<CacheType>,
+    member: GuildMember,
+) => {
+    const onBoardingChannel = (await interaction.client.channels.fetch(
         CONSTANTS.ONBOARDING_CHANNEL_ID,
     )) as TextChannel;
 
