@@ -1,4 +1,4 @@
-import { CommandInteraction, CacheType, GuildMember, TextChannel, Message } from 'discord.js';
+import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { formatSocial, socials } from '../utils';
