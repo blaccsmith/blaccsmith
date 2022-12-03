@@ -10,9 +10,16 @@ export const CONSTANTS = Object.freeze({
     GENERAL_CHANNEL_ID: process.env.GENERAL_CHANNEL_ID as string,
     MODERATOR_CHANNEL_ID: process.env.MODERATOR_CHANNEL_ID as string,
     WELCOME_CHANNEL_ID: process.env.WELCOME_CHANNEL_ID as string,
+    SPECTATOR_ROLE_ID: process.env.SPECTATOR_ROLE_ID as string,
     ONBOARDING_CHANNEL_ID: process.env.ONBOARDING_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_CHANNEL_ID: process.env.COMMUNITY_GUIDELINES_CHANNEL_ID as string,
     COMMUNITY_GUIDELINES_MESSAGE_ID: process.env.COMMUNITY_GUIDELINES_MESSAGE_ID as string,
+    MEMBER_STATUSES: {
+        Aspiring: process.env.ASPIRING_ROLE_ID as string,
+        Junior: process.env.JUNIOR_DEVELOPER_ROLE_ID as string,
+        Senior: process.env.SENIOR_DEVELOPER_ROLE_ID as string,
+        'Mid-level': process.env.MID_LEVEL_ROLE_ID as string,
+    },
     BOT_INTENTS: [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MEMBERS,
