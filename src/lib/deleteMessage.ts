@@ -11,7 +11,7 @@ export const deleteOnBoardingMessage = async (
 
     const onBoardingMessages = await onBoardingChannel.messages.fetch({ limit: 10 });
     const message = onBoardingMessages.find((message: Message) =>
-        message.content.includes(member.id),
+        message.content.includes(member.user.tag),
     );
 
     if (message) {

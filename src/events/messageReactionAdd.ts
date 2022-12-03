@@ -29,11 +29,8 @@ export const execute = async (reaction: MessageReaction, user: User) => {
                 `Hey <@${member.id}>! \nCheck the pinned message 👆 for instructions on how to use the /intro slash command so you can introduce yourself and get access to all channels 😎`,
             ),
         ]);
-    } else if (member.roles.cache.has(CONSTANTS.ONBOARDING_ROLE_ID)) {
-        await Promise.all([
-            member.roles.remove(CONSTANTS.ONBOARDING_ROLE_ID),
-            member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
-        ]);
+    } else {
+        await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
     }
 
     await logger({
