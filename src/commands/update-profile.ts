@@ -109,7 +109,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const updatedLinks = getUpdatedLinks(oldLinks, newLinks);
 
     const updatedValues = {
-        id: member.id,
+        id: member.user.tag,
         status: updatedStatus,
         intro: updatedIntro,
         links: updatedLinks,

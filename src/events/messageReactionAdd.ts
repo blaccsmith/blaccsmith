@@ -1,4 +1,4 @@
-import { MessageReaction, User } from 'discord.js';
+import { MessageReaction, TextChannel, User } from 'discord.js';
 import { client } from '..';
 import { CONSTANTS } from '../constants';
 import logger from '../utils/logger';
@@ -20,12 +20,17 @@ export const execute = async (reaction: MessageReaction, user: User) => {
 
     const guild = await client.guilds.fetch(CONSTANTS.GUILD_ID);
     const member = await guild.members.fetch(user.id);
+    const channel = guild.channels.cache.get(CONSTANTS.ONBOARDING_CHANNEL_ID) as TextChannel;
 
     if (member.roles.cache.every(role => role.name === '@everyone')) {
-        await member.roles.add(CONSTANTS.SPECTATOR_ROLE_ID);
-    } else if (member.roles.cache.has(CONSTANTS.SPECTATOR_ROLE_ID)) {
+        await Promise.all([
+            member.roles.add(CONSTANTS.ONBOARDING_ROLE_ID),
+            channel.send(
+                `Hey <@${member.id}>! \nCheck the pinned message 👆 for instructions on how to use the /intro slash command so you can introduce yourself and get access to all channels 😎`,
+            ),
+        ]);
+    } else {
         await member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
-        await member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
     }
 
     await logger({
