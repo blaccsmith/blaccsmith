@@ -4,6 +4,7 @@ interface EmbedMessage {
     title: string;
     description: string;
     color: ColorResolvable;
+    status?: string;
     author?: EmbedAuthorData;
     thumbnail?: string;
     links?: { name: string; value: string; inline: boolean }[];
@@ -27,6 +28,9 @@ export const embedMessage = (data: EmbedMessage) => {
     }
 
     author && message.setAuthor(author);
+
+    data.status && message.addField('Status', data.status);
+    console.log({ data, message });
     message.setColor(color).setTitle(title).setDescription(description).setTimestamp();
 
     return message;
