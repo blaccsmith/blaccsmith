@@ -2,8 +2,6 @@ import {
     CommandInteraction,
     CacheType,
     GuildMember,
-    MessageActionRow,
-    MessageActionRowComponent,
     MessageComponentInteraction,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
@@ -39,7 +37,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const filter = (i: MessageComponentInteraction<'cached'>) =>
         i.customId === 'confirm' || i.customId === 'cancel';
 
-    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 5000 });
+    const collector = interaction.channel?.createMessageComponentCollector({ filter, time: 10000 });
 
     collector?.on('collect', async (i: any) => {
         if (i.customId === 'confirm') {
@@ -53,7 +51,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                     project: 'blacc',
                     channel: 'general',
                     event: 'WCW topic added',
-                    description: `Called by ${member.id}`,
+                    description: `Added by ${member.user.tag}`,
                     icon: '🟢',
                     notify: true,
                 }),
@@ -67,8 +65,8 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                 logger({
                     project: 'blacc',
                     channel: 'general',
-                    event: 'adding wcw topic cancelled',
-                    description: `called by ${member.id}`,
+                    event: 'Adding WCW topic cancelled',
+                    description: `Added by ${member.user.tag}`,
                     icon: '🔴',
                     notify: true,
                 }),
@@ -87,7 +85,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                     project: 'blacc',
                     channel: 'general',
                     event: 'Adding wcw topic timed out',
-                    description: `called by ${member.id}`,
+                    description: `Added by ${member.user.tag}`,
                     icon: '🔴',
                     notify: true,
                 }),
