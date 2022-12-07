@@ -57,6 +57,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     const links = [github, linkedin, twitter].filter(Boolean).map(link => {
         const socialLinks = formatSocial(link!.name as keyof typeof socials, link!.value as string);
+
         return {
             inline: true,
             name: link!.name[0].toUpperCase() + link!.name.slice(1),

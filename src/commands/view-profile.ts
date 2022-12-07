@@ -1,9 +1,9 @@
-import { CacheType, CommandInteraction } from 'discord.js';
+import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
 import { getProfile } from '../lib/getProfile';
 import { embedMessage } from '../utils/embed-message';
-import { formatSocial, getLinkName, socials } from '../utils';
+import { formatSocial, getLinkName, socials, messageReply } from '../utils';
 
 export const data = new SlashCommandBuilder()
     .setName('view-profile')
@@ -23,24 +23,29 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         member => member.user.username.toLocaleLowerCase() === username.trim().toLocaleLowerCase(),
     );
 
-    // Can't find user
     if (!searchedMember) {
         await interaction.reply({ content: `Could not find user ${username}`, ephemeral: true });
         return;
     }
 
-    // Profile is not created
+    // Not a member
     if (!searchedMember.roles.cache.has(CONSTANTS.MEMBER_ROLE_ID)) {
-        await interaction.reply({
-            content: `${username} does not have their profile configured`,
-            ephemeral: true,
-        });
+        const message =
+            'Someone has tried viewing your profile but profiles creations are only available to members. To become a member reply with a ✅ to the community guidelines and introduce yourself in the #welcome channel.';
+        await messageReply(interaction, message, searchedMember);
         return;
     }
 
-    const userData = await getProfile({ discordId: searchedMember.user.id });
+    const profileData = await getProfile({ discordId: searchedMember.user.id });
 
-    const rawLinks = [userData?.github, userData?.linkedin, userData?.twitter]
+    if (!profileData) {
+        const message =
+            "Someone has tried viewing your profile but you haven't created one yet. Please use the '/update-profile command to create your profile.";
+        await messageReply(interaction, message, searchedMember);
+        return;
+    }
+
+    const rawLinks = [profileData?.github, profileData?.linkedin, profileData?.twitter]
         .filter(Boolean)
         .map(link => ({
             name:
@@ -69,7 +74,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
         embeds: [
             embedMessage({
                 title: `${searchedMember.displayName}'s profile`,
-                description: `${userData?.intro}`,
+                description: `${profileData?.intro}`,
                 color: '#5bd64b',
                 thumbnail: searchedMember.user.displayAvatarURL(),
                 links,
