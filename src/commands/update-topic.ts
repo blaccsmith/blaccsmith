@@ -38,7 +38,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             project: 'blacc',
             channel: 'general',
             event: `Topic ${topicId} has been updated`,
-            description: `Called by ${member.id}`,
+            description: `Called by ${member.user.tag}`,
             icon: '🟢',
             notify: true,
         }),

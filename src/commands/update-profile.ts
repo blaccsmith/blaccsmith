@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
 import { CONSTANTS } from '../constants';
-import { getProfile } from '../utils/getProfile';
-import { updateProfile } from '../utils/updateProfile';
+import { getProfile } from '../lib/getProfile';
+import { updateProfile } from '../lib/updateProfile';
 import { getUpdatedLinks } from '../utils';
 import logger from '../utils/logger';
 
@@ -84,7 +84,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const updatedLinks = getUpdatedLinks(oldLinks, newLinks);
 
     const updatedValues = {
-        id: member.id,
+        id: member.user.tag,
         status: updatedStatus,
         intro: updatedIntro,
         links: updatedLinks,

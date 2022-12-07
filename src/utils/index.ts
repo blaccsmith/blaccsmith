@@ -1,5 +1,5 @@
 import { CacheType, CommandInteraction, GuildMember } from 'discord.js';
-import { Link } from './updateProfile';
+import { Link } from '../lib/updateProfile';
 
 export const socials = {
     github: 'https://github.com',

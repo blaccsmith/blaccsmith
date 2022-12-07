@@ -57,7 +57,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
             project: 'blacc',
             channel: 'general',
             event: `Someone asked anonymously in #${channel.name}`,
-            description: `Called by ${member.id}`,
+            description: `Called by ${member.user.tag}`,
             icon: '❓',
             notify: true,
         }),
