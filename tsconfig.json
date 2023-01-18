@@ -3,11 +3,13 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
     "outDir": "dist"
   },
   "lib": ["es2015"],
-  "exclude": ["commands/example.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/commands/example.ts"]
 }
