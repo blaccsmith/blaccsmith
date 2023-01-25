@@ -6,13 +6,13 @@ import logger from '../utils/logger';
 import { updateTopic } from '../lib/updateTopic';
 
 export const data = new SlashCommandBuilder()
-    .setName('update-wcw-topic')
-    .setDescription('Update a topic for Water Cooler Wednesdays 💦')
+    .setName('edit-wcw-topic')
+    .setDescription('Edit a topic for Water Cooler Wednesdays 💦')
     .addNumberOption(option =>
-        option.setName('topic-id').setDescription('The topic to update').setRequired(true),
+        option.setName('topic-id').setDescription('ID of the topic to be edited').setRequired(true),
     )
     .addStringOption(option =>
-        option.setName('topic').setDescription('What should it update to?').setRequired(true),
+        option.setName('topic').setDescription('The new topic').setRequired(true),
     );
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
