@@ -8,8 +8,8 @@
     "scripts": {
         "generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
         "start": "tsc && node dist/",
-        "run-bot": "yarn generate && yarn cmd && yarn start",
-        "cmd": "tsc && node dist/commands.js",
+        "run-bot": "yarn generate && yarn cmd && node dist/",
+        "cmd": "rm -rf dist && tsc && node dist/commands.js",
         "test": "tsc && jest",
         "update-db": "npx prisma db push --schema=./src/prisma/schema.prisma"
     },
