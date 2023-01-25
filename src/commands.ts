@@ -6,9 +6,10 @@ import { getCommandFiles } from './utils/get-sys-files';
 const { CLIENT_ID, GUILD_ID, DISCORD_TOKEN } = CONSTANTS;
 
 const commands = [];
-
 for (const file of getCommandFiles()) {
+console.log('commands:', file)
     const command = require(`./commands/${file}`);
+    console.log('required command:', command)
     commands.push(command.data.toJSON());
 }
 
