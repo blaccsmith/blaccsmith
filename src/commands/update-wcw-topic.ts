@@ -6,7 +6,7 @@ import logger from '../utils/logger';
 import { updateTopic } from '../lib/updateTopic';
 
 export const data = new SlashCommandBuilder()
-    .setName('update-topic')
+    .setName('update-wcw-topic')
     .setDescription('Update a topic for Water Cooler Wednesdays 💦')
     .addNumberOption(option =>
         option.setName('topic-id').setDescription('The topic to update').setRequired(true),

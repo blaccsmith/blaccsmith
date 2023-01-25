@@ -5,7 +5,7 @@ import { listTopics } from '../lib/listTopics';
 import { formatTopics } from '../lib/formatTopics';
 
 export const data = new SlashCommandBuilder()
-    .setName('list-topics')
+    .setName('list-wcw-topics')
     .setDescription('List topics for 💦 Water Cooler Wednesdays');
 
 export async function execute(interaction: CommandInteraction<CacheType>) {

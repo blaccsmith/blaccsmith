@@ -12,7 +12,7 @@ import logger from '../utils/logger';
 import { ConfirmationButton } from '../lib/components/confirmation-button';
 
 export const data = new SlashCommandBuilder()
-    .setName('update-wcw')
+    .setName('create-wcw-topic')
     .setDescription('Add a topic for Water Cooler Wednesdays 💦')
     .addStringOption(option =>
         option.setName('topic').setDescription('Your topic').setRequired(true),
