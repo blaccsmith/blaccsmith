@@ -7,8 +7,8 @@
     "license": "MIT",
     "scripts": {
         "generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
-        "start": "tsc && node dist/",
-        "run-bot": "yarn generate && yarn cmd && node dist/",
+        "start": "yarn cmd && node dist/",
+        "run-bot": "yarn generate && yarn update-db && yarn start",
         "cmd": "rm -rf dist && tsc && node dist/commands.js",
         "test": "tsc && jest",
         "update-db": "npx prisma db push --schema=./src/prisma/schema.prisma"
