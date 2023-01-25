@@ -1,7 +1,7 @@
 import { CommandInteraction, CacheType, GuildMember } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
-import { addTopic } from '../lib/addTopic';
+import { getTopic } from '../lib/getTopic';
 import logger from '../utils/logger';
 import { updateTopic } from '../lib/updateTopic';
 
@@ -19,10 +19,20 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const topicId = interaction.options.getNumber('topic-id') as number;
     const topic = interaction.options.getString('topic') as string;
     const member = interaction.member as GuildMember;
+    const topicRecord = await getTopic(topicId);
 
-    if (!member.roles.cache.has(CONSTANTS.MODERATOR_ROLE_ID)) {
+    if (!topicRecord) {
         await interaction.reply({
-            content: '🚨 You do not have privileges to update WCW topics',
+            content: '🚨 Topic not found',
+            ephemeral: true,
+        });
+
+        return;
+    }
+
+    if (!member.roles.cache.has(CONSTANTS.MODERATOR_ROLE_ID) && topicRecord.authorId !== member.user.id) {
+        await interaction.reply({
+            content: '🚨 You do not have permission to update this topic',
             ephemeral: true,
         });
         return;

@@ -1,6 +1,6 @@
 datasource db {
   provider             = "mysql"
-  url                  = env("DATABASE_URL")
+  url                  = "mysql://1jl11m3yzlxj:pscale_pw_5eAre0xHc385_FjyP9FsspEr0eRqM99ik71S44gdNRg@kuisvva9xqkv.us-east-2.psdb.cloud/official?sslaccept=strict"
   referentialIntegrity = "prisma"
 }
 
@@ -54,6 +54,7 @@ model User {
   posts         Post[]
   likedPosts    LikedPosts[]
   comments      Comment[]
+  topics        wcwTopic[]
   role          Role         @default(USER)
   profile       Profile?
 }
@@ -147,4 +148,8 @@ model wcwTopic {
   used      Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId  String?
+
+  @@index([authorId])
 }

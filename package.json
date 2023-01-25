@@ -10,7 +10,8 @@
         "start": "tsc && node dist/",
         "run-bot": "yarn generate && yarn cmd && yarn start",
         "cmd": "tsc && node dist/commands.js",
-        "test": "tsc && jest"
+        "test": "tsc && jest",
+        "update-db": "npx prisma db push --schema=./src/prisma/schema.prisma"
     },
     "dependencies": {
         "@discordjs/builders": "^0.12.0",
