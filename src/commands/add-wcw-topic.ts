@@ -26,6 +26,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     await interaction.reply({
         content: `Are you sure you want to add the topic: ${topic}?`,
         components: ConfirmationButton,
+        ephemeral: true,
     });
 
     const filter = (i: MessageComponentInteraction<'cached'>) =>
