@@ -6,7 +6,6 @@ import {
     TextChannel,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-// import { client } from '..';
 import { CONSTANTS } from '../constants';
 import { addTopic } from '../lib/addTopic';
 import logger from '../utils/logger';
@@ -22,7 +21,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const topic = interaction.options.getString('topic') as string;
     const member = interaction.member as GuildMember;
-    const modChannel = ''//client.channels.cache.get(CONSTANTS.MODERATOR_CHANNEL_ID) as TextChannel;
+    const modChannel = interaction.client.channels.cache.get(CONSTANTS.MODERATOR_CHANNEL_ID) as TextChannel;
 
     await interaction.reply({
         content: `Are you sure you want to add the topic: ${topic}?`,
@@ -50,7 +49,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                     icon: '🟢',
                     notify: true,
                 }),
-                // modChannel.send(`🗣️ WCW topic added by ${member.user.tag}: "${topic}"`),
+                modChannel.send(`🗣️ WCW topic added by ${member.user.tag}: "${topic}"`),
             ]);
         } else if (i.customId === 'cancel') {
             await Promise.all([

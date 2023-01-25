@@ -17,7 +17,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
 
     await Promise.all([
         interaction.reply({
-            content: `Not used:\n${formatTopics(notUsed)}\n\nUsed:\n${formatTopics(used)}`,
+            content: `Not used:\n${formatTopics(notUsed, interaction.client)}\n\nUsed:\n${formatTopics(used, interaction.client)}`,
             ephemeral: true,
         }),
         logger({

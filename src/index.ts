@@ -13,16 +13,14 @@ client.commands = new Collection();
 // Register slash commands
 for (const file of getCommandFiles()) {
     const command = require(`./commands/${file}`);
-    console.log('file:', file)
-    // console.log(command.data ?? command)
+    
     client.commands.set(command.data.name, command);
 }
 
 // Listen for slash commands
 client.on('interactionCreate', async interaction => {
-    console.log('server:', interaction.guild?.name)
     if (!interaction.isCommand()) return;
-console.log(interaction.commandName)
+
     const command = client.commands?.get(interaction.commandName);
     if (!command) return;
 
