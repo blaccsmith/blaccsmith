@@ -3,6 +3,7 @@ import {
     CacheType,
     GuildMember,
     MessageComponentInteraction,
+    TextChannel,
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CONSTANTS } from '../constants';
@@ -11,7 +12,7 @@ import logger from '../utils/logger';
 import { ConfirmationButton } from '../lib/components/confirmation-button';
 
 export const data = new SlashCommandBuilder()
-    .setName('update-wcw')
+    .setName('add-wcw-topic')
     .setDescription('Add a topic for Water Cooler Wednesdays 💦')
     .addStringOption(option =>
         option.setName('topic').setDescription('Your topic').setRequired(true),
@@ -20,18 +21,12 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const topic = interaction.options.getString('topic') as string;
     const member = interaction.member as GuildMember;
-
-    if (!member.roles.cache.has(CONSTANTS.MODERATOR_ROLE_ID)) {
-        await interaction.reply({
-            content: '🚨 You do not have privileges to add WCW topics',
-            ephemeral: true,
-        });
-        return;
-    }
+    const modChannel = interaction.client.channels.cache.get(CONSTANTS.MODERATOR_CHANNEL_ID) as TextChannel;
 
     await interaction.reply({
         content: `Are you sure you want to add the topic: ${topic}?`,
         components: ConfirmationButton,
+        ephemeral: true,
     });
 
     const filter = (i: MessageComponentInteraction<'cached'>) =>
@@ -42,7 +37,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     collector?.on('collect', async (i: any) => {
         if (i.customId === 'confirm') {
             await Promise.all([
-                addTopic(topic),
+                addTopic(topic, member.user.id),
                 interaction.editReply({
                     content: `✅ Topic added: ${topic}`,
                     components: [],
@@ -55,6 +50,7 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
                     icon: '🟢',
                     notify: true,
                 }),
+                modChannel.send(`🗣️ WCW topic added by ${member.user.tag}: "${topic}"`),
             ]);
         } else if (i.customId === 'cancel') {
             await Promise.all([

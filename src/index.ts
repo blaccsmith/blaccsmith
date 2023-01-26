@@ -13,6 +13,7 @@ client.commands = new Collection();
 // Register slash commands
 for (const file of getCommandFiles()) {
     const command = require(`./commands/${file}`);
+    
     client.commands.set(command.data.name, command);
 }
 
