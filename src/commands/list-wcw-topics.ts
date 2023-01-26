@@ -12,8 +12,8 @@ export async function execute(interaction: CommandInteraction<CacheType>) {
     const member = interaction.member as GuildMember;
     const topics = await listTopics();
 
-    const notUsed = topics.filter((item: { used: boolean; }) => !item.used);
-    const used = topics.filter((item: { used: boolean; }) => item.used);
+    const notUsed = topics.filter((item) => !item.used);
+    const used = topics.filter((item) => item.used);
 
     await Promise.all([
         interaction.reply({
