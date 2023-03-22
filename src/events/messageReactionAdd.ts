@@ -30,9 +30,9 @@ export const execute = async (reaction: MessageReaction, user: User) => {
             ),
         ]);
     } else {
-        await Promise.all([ 
-            member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID);
-            member.roles.add(CONSTANTS.MEMBER_ROLE_ID);
+        await Promise.all([
+            member.roles.remove(CONSTANTS.SPECTATOR_ROLE_ID),
+            member.roles.add(CONSTANTS.MEMBER_ROLE_ID),
         ]);
     }
 
