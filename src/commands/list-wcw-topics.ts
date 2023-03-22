@@ -5,19 +5,19 @@ import { listTopics } from '../lib/listTopics';
 import { formatTopics } from '../lib/formatTopics';
 
 export const data = new SlashCommandBuilder()
-    .setName('list-topics')
+    .setName('list-wcw-topics')
     .setDescription('List topics for 💦 Water Cooler Wednesdays');
 
 export async function execute(interaction: CommandInteraction<CacheType>) {
     const member = interaction.member as GuildMember;
     const topics = await listTopics();
 
-    const notUsed = topics.filter(item => !item.used);
-    const used = topics.filter(item => item.used);
+    const notUsed = topics.filter((item) => !item.used);
+    const used = topics.filter((item) => item.used);
 
     await Promise.all([
         interaction.reply({
-            content: `Not used:\n${formatTopics(notUsed)}\n\nUsed:\n${formatTopics(used)}`,
+            content: `Not used:\n${formatTopics(notUsed, interaction.client)}\n\nUsed:\n${formatTopics(used, interaction.client)}`,
             ephemeral: true,
         }),
         logger({

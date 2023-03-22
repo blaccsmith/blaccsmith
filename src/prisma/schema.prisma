@@ -54,6 +54,7 @@ model User {
   posts         Post[]
   likedPosts    LikedPosts[]
   comments      Comment[]
+  topics        wcwTopic[]
   role          Role         @default(USER)
   profile       Profile?
 }
@@ -147,4 +148,8 @@ model wcwTopic {
   used      Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId  String?
+
+  @@index([authorId])
 }
